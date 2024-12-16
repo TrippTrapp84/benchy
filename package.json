@@ -4,6 +4,8 @@
 	"description": "",
 	"keywords": [],
 	"license": "ISC",
+	"main": "src/init.luau",
+	"types": "src/index.d.ts",
 	"author": "",
 	"devDependencies": {
 		
