@@ -1,0 +1,15 @@
+{
+	"name": "benchy-plugin",
+	"version": "1.0.0",
+	"description": "",
+	"keywords": [],
+	"license": "ISC",
+	"author": "",
+	"devDependencies": {
+		
+		"@rbxts/compiler-types": "3.0.0-types.0",
+		"@rbxts/types": "1.0.810",
+		"typescript": "5.5.3"
+	},
+	"packageManager": "pnpm@9.11.0"
+}

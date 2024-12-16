@@ -1,0 +1,14 @@
+{
+    "name": "benchy-test",
+    "tree": {
+        "$className": "DataModel",
+        "ServerScriptService": {
+            "Benchy": {
+                "$path": "src"
+            },
+            "BenchyTest": {
+                "$path": "test"
+            }
+        }
+    }
+}

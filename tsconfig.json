@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"noLib": true,
+		"baseUrl": "src",
+		"rootDir": "src",
+		"module": "commonjs",
+		"moduleResolution": "Node",
+		"resolveJsonModule": true,
+		"typeRoots": ["node_modules/@rbxts"],
+		"strict": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": false,
+		"noUncheckedIndexedAccess": true,
+		"downlevelIteration": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true
+	}
+}
