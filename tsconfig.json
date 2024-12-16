@@ -4,6 +4,7 @@
 		"noLib": true,
 		"baseUrl": "src",
 		"rootDir": "src",
+		"outDir": "src",
 		"module": "commonjs",
 		"moduleResolution": "Node",
 		"resolveJsonModule": true,
