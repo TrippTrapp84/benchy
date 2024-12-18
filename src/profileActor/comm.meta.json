@@ -1,6 +1,5 @@
 {
     "properties": {
-        "RunContext": "Server",
-        "Disabled": true
+        "RunContext": "Server"
     }
 }

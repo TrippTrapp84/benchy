@@ -162,11 +162,8 @@ end
 function Benchy.ProfileModule(module: ModuleScript, config: ProfileConfig?): (boolean, ModuleProfileResults | ErrorCode)
     local Actor = script.profileActor
 
-    Actor.comm.Disabled = false
-
-    local CommEvent = Actor:WaitForChild("CommEvent")
+    local CommEvent = Actor:FindFirstChild("CommEvent")
     if not CommEvent:IsA("BindableEvent") then
-        Actor:Destroy()
         return false, Benchy.ErrorCode.UNKNOWN_INTERNAL_ERROR
     end
 
@@ -182,17 +179,13 @@ function Benchy.ProfileModule(module: ModuleScript, config: ProfileConfig?): (bo
 
     CommEvent.Event:Connect(function(Event: string, ...: any)
         if Event == "Error" then
-            Actor:Destroy()
-            
-            local ErrorCode: ErrorCode = ...
+            local ErrorCode: ErrorCode? = ...
             if not Activated then
                 Activated = true
 
-                resume(false, ErrorCode)
+                resume(false, ErrorCode or Benchy.ErrorCode.UNKNOWN_INTERNAL_ERROR)
             end
         elseif Event == "Complete" then
-            Actor:Destroy()
-
             local ProfileData: ModuleProfileResults? = ...
             if not Activated then
                 Activated = true
