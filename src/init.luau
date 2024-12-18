@@ -42,7 +42,14 @@ function Benchy.ProfileFunction(Function: Types.ProfileFunction, Config: Profile
         end
     }
 
-    local TestProfileThread = task.spawn(function() Function(TestProfiler, TestProfiler.Begin, TestProfiler.End) end)
+    local TestProfileThread = task.spawn(function()
+        if if Config then Config.Benchmarker ~= false else true then
+            local Data = if Config and Config.ParameterGenerator then {Config.ParameterGenerator()} else {}
+            Function(TestProfiler, unpack(Data) :: never)
+        else
+            Function(TestProfiler, TestProfiler.Begin, TestProfiler.End)
+        end
+    end)
     if coroutine.status(TestProfileThread) ~= "dead" then return false, Benchy.ErrorCode.FunctionYield end
     if InvalidData then return false, Benchy.ErrorCode.InvalidSectionName end
 
@@ -204,7 +211,9 @@ function Benchy.ProfileModule(module: ModuleScript, config: ProfileConfig?): (bo
         end
     end)
 
-    CommEvent:Fire("ProfileModule", module, config)
+    task.defer(function()
+        CommEvent:Fire("ProfileModule", module, config)
+    end)
 
     local Success, ProfileData = coroutine.yield()
 
