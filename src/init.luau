@@ -43,7 +43,7 @@ function Benchy.ProfileFunction(Function: Types.ProfileFunction, Config: Profile
     }
 
     local TestProfileThread = task.spawn(function()
-        if if Config then Config.Benchmarker ~= nil else true then
+        if if Config then Config.Benchmarker ~= false else true then
             local Data = if Config and Config.ParameterGenerator then {Config.ParameterGenerator()} else {}
             Function(TestProfiler, unpack(Data) :: never)
         else
