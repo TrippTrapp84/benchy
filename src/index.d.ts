@@ -14,8 +14,6 @@ export interface ProfileBucketData {
     Buckets: Array<Array<ProfileRunData>>,
 }
 
-export type ModuleProfileResults = Map<string,ProfileData>
-
 export interface ProfileStatistics {
     Mean: number,
     Median: number,
@@ -69,4 +67,4 @@ export namespace Statistics {
 }
 
 export function ProfileFunction(Function: ProfileFunction, Config?: ProfileConfig): Result<ProfileData>
-export function ProfileModule(Module: ModuleScript, Config?: ProfileConfig): Result<ModuleProfileResults>
+export function ProfileModule(Module: ModuleScript, Config?: ProfileConfig): Result<Map<string,ProfileData>>
