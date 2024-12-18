@@ -180,8 +180,9 @@ function Benchy.ProfileModule(module: ModuleScript, config: ProfileConfig?): (bo
     end
 
     local thread = coroutine.running()
-    local Activated = false
 
+    local Resumed = false
+    local ResumedSuccess, ResumedData = nil, nil
     local function resume(...: any)
         local Args = {...}
         pcall(function()
@@ -192,20 +193,26 @@ function Benchy.ProfileModule(module: ModuleScript, config: ProfileConfig?): (bo
     CommEvent.Event:Connect(function(Event: string, ...: any)
         if Event == "Error" then
             local ErrorCode: ErrorCode? = ...
-            if not Activated then
-                Activated = true
+            if not Resumed then
+                Resumed = true
+                ResumedSuccess = false
+                ResumedData = ErrorCode or Benchy.ErrorCode.UNKNOWN_INTERNAL_ERROR
 
-                resume(false, ErrorCode or Benchy.ErrorCode.UNKNOWN_INTERNAL_ERROR)
+                resume(ResumedSuccess, ResumedData)
             end
         elseif Event == "Complete" then
             local ProfileData: ModuleProfileResults? = ...
-            if not Activated then
-                Activated = true
+            if not Resumed then
+                Resumed = true
 
                 if not ProfileData then
-                    resume(false)
+                    ResumedSuccess = false
+                    ResumedData = Benchy.ErrorCode.UNKNOWN_INTERNAL_ERROR
+                    resume(ResumedSuccess, ResumedData)
                 else
-                    resume(true, ProfileData)
+                    ResumedSuccess = true
+                    ResumedData = ProfileData
+                    resume(ResumedSuccess, ResumedData)
                 end
             end
         end
@@ -215,8 +222,11 @@ function Benchy.ProfileModule(module: ModuleScript, config: ProfileConfig?): (bo
         CommEvent:Fire("ProfileModule", module, config)
     end)
 
-    local Success, ProfileData = coroutine.yield()
+    if Resumed then
+        return ResumedSuccess, ResumedData
+    end
 
+    local Success, ProfileData = coroutine.yield()
     return Success, ProfileData
 end
 
