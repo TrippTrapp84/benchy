@@ -211,7 +211,9 @@ function Benchy.ProfileModule(module: ModuleScript, config: ProfileConfig?): (bo
         end
     end)
 
-    CommEvent:Fire("ProfileModule", module, config)
+    task.defer(function()
+        CommEvent:Fire("ProfileModule", module, config)
+    end)
 
     local Success, ProfileData = coroutine.yield()
 
