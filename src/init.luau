@@ -160,8 +160,7 @@ function Benchy.ProfileFunction(Function: Types.ProfileFunction, Config: Profile
 end
 
 function Benchy.ProfileModule(module: ModuleScript, config: ProfileConfig?): (boolean, ModuleProfileResults | ErrorCode)
-    local Actor = script.profileActor.actor:Clone()
-    Actor.Parent = script.actors
+    local Actor = script.profileActor
 
     Actor.comm.Disabled = false
 
