@@ -109,8 +109,8 @@ function Benchy.ProfileFunction(Function: Types.ProfileFunction, Config: Profile
     local beginSection = Profiler.Begin
     local endSection = Profiler.End
 
-    if Config and Config.Benchmarker then
-        local DataFunction = Config.ParameterGenerator
+    if if Config then Config.Benchmarker ~= false else true then
+        local DataFunction = Config and Config.ParameterGenerator
         if not DataFunction then
             for i = 1,Iterations do
                 CurrentRun = i
