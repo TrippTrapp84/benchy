@@ -1,4 +1,6 @@
 --!strict
+local RunService = game:GetService("RunService")
+
 local Types = require(script.types)
 local Statistics = require(script.statistics)
 
@@ -11,6 +13,11 @@ type ErrorCode = Types.ErrorCode
 local Defaults = {
     Iterations = 100000
 }
+
+local ProfileActor = script.profileActor
+if not RunService:IsEdit() then
+    ProfileActor.comm.RunContext = Enum.RunContext.Server
+end
 
 local Benchy = {}
 Benchy.Statistics = Statistics
@@ -160,9 +167,7 @@ function Benchy.ProfileFunction(Function: Types.ProfileFunction, Config: Profile
 end
 
 function Benchy.ProfileModule(module: ModuleScript, config: ProfileConfig?): (boolean, ModuleProfileResults | ErrorCode)
-    local Actor = script.profileActor
-
-    local CommEvent = Actor:FindFirstChild("CommEvent")
+    local CommEvent = ProfileActor:FindFirstChild("CommEvent")
     if not CommEvent:IsA("BindableEvent") then
         return false, Benchy.ErrorCode.UNKNOWN_INTERNAL_ERROR
     end
